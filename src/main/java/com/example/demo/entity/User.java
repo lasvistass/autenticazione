@@ -17,16 +17,15 @@ import javax.persistence.Table;
 
 import lombok.Data;
 
-
 @Entity
-@Table(name="User")
+@Table(name = "User")
 public class User {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "auth_user")
-	@SequenceGenerator(name="auth_user", sequenceName = "user_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "auth_user")
+	@SequenceGenerator(name = "auth_user", sequenceName = "user_seq")
 	private Integer id;
-	@Column(unique = true, nullable= false)
+	@Column(unique = true, nullable = false)
 	private String username;
 	private String firstname;
 	private String lastname;
@@ -34,10 +33,26 @@ public class User {
 	private boolean active;
 	private String password;
 	private String email;
-	
+
 	@ManyToMany
-	@JoinTable(name="user_roles", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
+	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<Role>();
+
+	public User() {
+	}
+
+	public User(Integer id, String username, String firstname, String lastname, Date birthday, boolean active,
+			String password, String email, Set<Role> roles) {
+		this.id = id;
+		this.username = username;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.birthday = birthday;
+		this.active = active;
+		this.password = password;
+		this.email = email;
+		this.roles = roles;
+	}
 
 	public Integer getId() {
 		return id;
@@ -110,6 +125,5 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
-	
-	
+
 }

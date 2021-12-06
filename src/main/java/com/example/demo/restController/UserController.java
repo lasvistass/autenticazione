@@ -3,7 +3,6 @@ package com.example.demo.restController;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +22,12 @@ public class UserController {
 	UserRepository userRepository;
 
 	@GetMapping(value="/{id}")
-	@PreAuthorize("hasRole(ADMIN) or hasRole(USER)")
-	public Optional<User> getById(@PathVariable("id") Integer id){
+	@PreAuthorize("hasRole('ADMIN')")
+	public Optional<User> getById(@PathVariable(required = true) Integer id){
 		return userRepository.findById(id);
 	}
 	
 	@PostMapping(value="/save")
-	@PreAuthorize("hasRole(ADMIN)")
 	public User saveUser(@RequestBody User user){
 		return userRepository.save(user);
 	}
